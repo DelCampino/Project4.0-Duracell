@@ -32,14 +32,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    var ws = new WebSocket('ws://192.168.1.2:15674/ws');
+    //var ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
+    var ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
     var client = Stomp.over(ws);
   
+    var bind = this;
     var on_connect = function() {
       alert("connected")
       client.subscribe('/queue/test', function(message) {
         console.log("Message received: " + message);
-        //this.updateMessages(message);
+        bind.updateMessages(message);
         alert(message);
       });
     };
@@ -47,11 +49,13 @@ export class AppComponent implements OnInit {
       alert('error');
     };
 
-    client.connect('team4', 'team4', on_connect, on_error, 'team4vhost');
+    //client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
+    client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
   }
 
   updateMessages(message) {
     this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, message]);
+    console.log(this.rabbitmqservice.messages.value);
   }
 
 }
