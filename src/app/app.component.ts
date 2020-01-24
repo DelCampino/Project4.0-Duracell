@@ -13,6 +13,8 @@ import { RabbitmqService } from './services/rabbitmq.service';
   styleUrls: ['app.component.scss']
 })
 export class AppComponent implements OnInit {
+  ws = null;
+  client = null;
 
   constructor(
     private platform: Platform,
@@ -22,6 +24,13 @@ export class AppComponent implements OnInit {
   ) 
   {
     this.initializeApp();
+    this.rabbitmqservice.group.subscribe(e=> {
+      console.log("Changing queue to:" + e);
+      //if (this.client != null) {
+      //  this.client.disconnect();
+      //}
+      this.changeQueue(e);
+    });
   }
 
   initializeApp() {
@@ -32,25 +41,29 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    //var ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
-    var ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
-    var client = Stomp.over(ws);
-  
+    this.changeQueue("start");
+  }
+
+  changeQueue(toQueue) {
+    //var this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
+    this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
+    this.client = Stomp.over(this.ws);
+
+    var queue = '/queue/' + toQueue
     var bind = this;
     var on_connect = function() {
       alert("connected")
-      client.subscribe('/queue/test', function(message) {
+      bind.client.subscribe(queue, function(message) {
         console.log("Message received: " + message);
         bind.updateMessages(message);
-        alert(message);
       });
     };
     var on_error =  function() {
       alert('error');
     };
 
-    //client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
-    client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+    //this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
+    this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
   }
 
   updateMessages(message) {

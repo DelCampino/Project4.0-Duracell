@@ -6,6 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class RabbitmqService {
   messages: BehaviorSubject<Array<any>> = new BehaviorSubject([]);
-  
-  constructor() { }
+  group: BehaviorSubject<String> = new BehaviorSubject("start");
+  constructor() { 
+  }
 }
