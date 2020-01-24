@@ -8,9 +8,9 @@
 
 <ion-content>
   <ion-list> 
-    <ion-item-sliding>
+    <ion-item-sliding *ngFor="let item of messages">
       <ion-item>
-        <ion-label>Test</ion-label>
+        <ion-label>{{item.body}}</ion-label>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="unread(item)">Bevestig</ion-item-option>

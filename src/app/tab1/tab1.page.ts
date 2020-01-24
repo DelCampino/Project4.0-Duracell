@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RabbitmqService } from '../services/rabbitmq.service';
 
 @Component({
   selector: 'app-tab1',
@@ -6,7 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['tab1.page.scss']
 })
 export class Tab1Page {
+  messages: any[];
+  constructor(private rabbitmqservice: RabbitmqService) {
+    this.rabbitmqservice.messages.subscribe(e=> {
+      this.messages = e;
+    });
 
-  constructor() {}
-
-}
+    }
+  }
