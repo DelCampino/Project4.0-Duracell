@@ -14,4 +14,9 @@ export class Tab1Page {
     });
 
     }
+
+    unread(item) {
+      this.messages.splice(this.messages.indexOf(item), 1);
+      this.rabbitmqservice.messages.next(this.messages);
+    }
   }
