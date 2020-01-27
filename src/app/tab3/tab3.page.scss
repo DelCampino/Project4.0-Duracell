@@ -1,15 +1,19 @@
-ion-list{
-    padding: 0 !important;
+*{
+    font-weight: bold;
 }
 
-ion-title{
-    font-weight: bold;
+ion-list{
+    padding: 0 !important;
+    background-color: var(--ion-color-dark);
 }
 
 ion-item{
     font-size: 1.3em;
+    vertical-align: middle;
 }
 
 ion-icon{
-    font-size: 1.5em;
+    font-size: 2em;
+    display: inline-block;
+    vertical-align: middle;
 }

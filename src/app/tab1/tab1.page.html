@@ -2,11 +2,11 @@
   <ion-toolbar color="new">
     <ion-title>
       <div *ngIf="messages.length != 0;else noMessages">
-        Meldingen
+        <img class="icon ion-text-center" src="../../assets/alert.png"/>
       </div>
-      <ng-template #loggedOut>
+      <ng-template #noMessages>
         <div>
-        Geen meldingen
+          <img class="icon ion-text-center" src="../../assets/checkmark.png"/>
       </div>
       </ng-template>
     </ion-title>
