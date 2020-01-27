@@ -29,7 +29,12 @@ export class AppComponent implements OnInit {
       //if (this.client != null) {
       //  this.client.disconnect();
       //}
+
+    
+
       this.changeQueue(e);
+
+    
     });
   }
 
