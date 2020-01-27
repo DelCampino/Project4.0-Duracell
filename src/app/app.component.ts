@@ -52,14 +52,14 @@ export class AppComponent implements OnInit {
 
 
   changeQueue(toQueue) {
-    //this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
-    this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
+    this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
+    //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
     this.client = Stomp.over(this.ws);
 
     var queue = '/queue/' + toQueue
     var bind = this;
     var on_connect = function() {
-      alert("connected")
+      //alert("connected to new queue: " + toQueue)
       bind.client.subscribe(queue, function(message) {
         console.log("Message received: " + message);
         bind.updateMessages(message);
@@ -70,8 +70,8 @@ export class AppComponent implements OnInit {
     };
 
     
-    //this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
-    this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+    this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
+    //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
   }
 
   updateMessages(message) {
