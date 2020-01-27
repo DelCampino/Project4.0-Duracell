@@ -9,7 +9,7 @@ import { RabbitmqService } from '../services/rabbitmq.service';
 export class Tab3Page {
 groups: String[];
   constructor(private rabbitmqservice: RabbitmqService) {
-    this.groups = ["Werkvloer A", "Werkvloer B", "Werkvloer C", "Werkvloer D", "Werkvloer F", "Werkvloer G", "Werkvloer H",]
+    this.groups = ["Afdeling A", "Afdeling B", "Afdeling C", "Afdeling D", "Afdeling E"]
   }
 
   select(item) {

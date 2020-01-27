@@ -10,7 +10,7 @@
   <ion-list color="dark"> 
     <ion-item-sliding color="dark" *ngFor="let item of groups">
       <ion-item color="dark">
-        <ion-label><ion-icon name="contact"></ion-icon> {{item}}</ion-label>
+        <ion-label class="ion-text-uppercase"><ion-icon name="contact"></ion-icon> {{item}}</ion-label>
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="select(item)">Selecteer</ion-item-option>
