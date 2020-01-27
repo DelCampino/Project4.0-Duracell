@@ -29,7 +29,12 @@ export class AppComponent implements OnInit {
       //if (this.client != null) {
       //  this.client.disconnect();
       //}
+
+    
+
       this.changeQueue(e);
+
+    
     });
   }
 
@@ -41,8 +46,10 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.changeQueue("start");
+    this.changeQueue("hello");
   }
+
+
 
   changeQueue(toQueue) {
     this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
@@ -62,6 +69,7 @@ export class AppComponent implements OnInit {
       alert('error');
     };
 
+    
     this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
     //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
   }
