@@ -1,15 +1,22 @@
 <ion-header>
   <ion-toolbar color="new">
     <ion-title>
-      Meldingen
+      <div *ngIf="messages.length != 0;else noMessages">
+        <img class="icon ion-text-center" src="../../assets/alert.png"/>
+      </div>
+      <ng-template #noMessages>
+        <div>
+          <img class="icon ion-text-center" src="../../assets/checkmark.png"/>
+      </div>
+      </ng-template>
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color="dark">
-  <ion-list>
-    <ion-item-sliding *ngFor="let item of messages">
-      <ion-item>
+  <ion-list color="dark">
+    <ion-item-sliding color="dark" *ngFor="let item of messages">
+      <ion-item color="dark">
         <ion-label>{{item.body}}</ion-label>
       </ion-item>
       <ion-item-options side="end">
