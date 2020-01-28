@@ -20,7 +20,12 @@ groups: String[];
       message: item + ' geselecteerd',
       duration: 2000,
       position: 'top',
-      color: 'primary'
+      color: 'primary',
+      buttons: [{
+        icon: "information-circle",
+        side: 'start'
+
+      }]
     });
 
     toast.present();
