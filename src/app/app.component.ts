@@ -5,7 +5,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Stomp } from "stomp.js";
 import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
-import { ThemeService } from './services/theme.service';
 
 @Component({
   selector: 'app-root',
@@ -17,13 +16,11 @@ export class AppComponent implements OnInit {
   ws = null;
   client = null;
 
-
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private rabbitmqservice: RabbitmqService,
-    private themeSwitcher: ThemeService
   ) 
   {
 
@@ -81,17 +78,6 @@ export class AppComponent implements OnInit {
     console.log(this.rabbitmqservice.messages.value);
   }
 
-  ThemeSwitcher() {
-    // 0 = day mode
-    // 1 = night mode
-    if (this.themeSwitcher.currentTheme === 0) {
-      this.themeSwitcher.setTheme('night');
-      this.themeSwitcher.currentTheme = 1;
-    } else {
-      this.themeSwitcher.setTheme('day');
-      this.themeSwitcher.currentTheme = 0;
-    }
-  }
 
 
 }
