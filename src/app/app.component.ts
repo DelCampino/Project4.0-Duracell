@@ -17,7 +17,7 @@ import { Message } from './models/message';
 export class AppComponent implements OnInit {
   ws = null;
   client = null;
-  connection = false;
+  connection;
 
   constructor(
     private platform: Platform,
@@ -53,12 +53,12 @@ export class AppComponent implements OnInit {
 
 
   changeQueue(toQueue) {
-    this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
+    this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
     //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
     this.client = Stomp.over(this.ws);
 
-    this.client.heartbeat.incoming = 0;
-    this.client.heartbeat.outgoing = 0;
+    this.client.heartbeat.incoming = 5000;
+    this.client.heartbeat.outgoing = 5000;
 
     var queue = '/queue/' + toQueue
     var bind = this;

@@ -15,24 +15,23 @@
 
 <ion-content color="dark">
   <ion-list color="dark">
-    <ion-item-sliding color="dark" *ngFor="let item of messages">
-      <ion-item color="dark">
-        <!-- <ion-label>{{item.timestamp.toLocaleDateString()}}{{item.message.body}}</ion-label> -->
+      <ion-item color="dark" *ngFor="let item of messages">
         <ion-grid>
           <ion-row>
             <ion-col class="ion-text-center">
-              <div>{{item.timestamp.toLocaleDateString()}}</div>
+              <div class="sensorTime">{{item.timestamp.toLocaleDateString()}}</div>
               <div>{{item.timestamp.toLocaleTimeString()}}</div>
             </ion-col>
-            <ion-col class="ion-text-center">
-              <div>{{item.message.body}}</div>
+            <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
+              <div class="sensorName">SENSOR_NAME</div>
+              <div class="sensorValue">{{item.message.body}}</div>
+            </ion-col>
+            <ion-col class="ion-text-center ion-text-uppercase sensorAmount">
+              <span class="sensorAmountValue">3</span>
+              <ion-icon class="sensorArrow" name="arrow-dropdown-circle"></ion-icon>
             </ion-col>
           </ion-row>
         </ion-grid>
       </ion-item>
-      <ion-item-options side="end">
-        <ion-item-option (click)="unread(item)">Bevestig</ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
   </ion-list>
 </ion-content>

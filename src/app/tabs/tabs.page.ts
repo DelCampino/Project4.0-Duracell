@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RabbitmqService } from '../services/rabbitmq.service';
 
 @Component({
   selector: 'app-tabs',
@@ -7,7 +8,13 @@ import { Component } from '@angular/core';
 })
 export class TabsPage {
 
-  constructor() {}
+  messages: number = 0;
+
+  constructor(private rabbitmqservice: RabbitmqService) {
+    this.rabbitmqservice.messages.subscribe(e=> {
+      this.messages = e.length;
+    });
+  }
 
   ToggleLightDark() {
   

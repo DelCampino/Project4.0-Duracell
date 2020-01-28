@@ -18,3 +18,31 @@ ion-toolbar {
   margin-left: auto;
   margin-right: auto;
 }
+
+ion-list {
+  --ion-font-family: 'Oswald' !important;
+}
+
+ion-item {
+  font-size: 22px;
+}
+
+.sensorTime {
+  margin-top: 5px;
+}
+
+.sensorAmountValue {
+  font-size: 26px;
+  margin-top: 15px;
+  margin-right: 5px;
+}
+
+.sensorInfo {
+    border-left: solid;
+    border-right: solid;
+    padding: 10px;
+}
+
+.sensorArrow {
+  margin-top: 15px;
+}
