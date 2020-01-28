@@ -5,6 +5,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Stomp } from "stomp.js";
 import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
+import { TIMEOUT } from 'dns';
+
 
 @Component({
   selector: 'app-root',
@@ -15,6 +17,7 @@ import { RabbitmqService } from './services/rabbitmq.service';
 export class AppComponent implements OnInit {
   ws = null;
   client = null;
+  connection = false;
 
   constructor(
     private platform: Platform,
@@ -58,14 +61,16 @@ export class AppComponent implements OnInit {
     var queue = '/queue/' + toQueue
     var bind = this;
     var on_connect = function() {
-      alert("connected")
+      bind.connection = true;
+      //alert("connected to new queue: " + toQueue)
       bind.client.subscribe(queue, function(message) {
         console.log("Message received: " + message);
         bind.updateMessages(message);
       });
     };
     var on_error =  function() {
-      alert('error');
+      bind.connection = false;
+      setTimeout(() => bind.changeQueue(toQueue), 5000)
     };
 
     
