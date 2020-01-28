@@ -4,3 +4,18 @@
 ion-app{
     --ion-font-family: 'Duracellio' !important;
 }
+
+.disconnected {
+    background-color: #272727;
+    height: 100%;
+    text-align: center;
+    color: white;
+    vertical-align: middle;
+    padding: 10px;
+
+}
+
+.iconDisconnected {
+    font-size: 80px;
+    margin-top: 20vh;
+}
