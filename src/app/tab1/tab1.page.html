@@ -13,7 +13,6 @@
   </ion-toolbar>
 </ion-header>
 
-<<<<<<< HEAD
 <ion-content color="dark">
   <ion-list color="dark">
     <ion-item-sliding color="dark" *ngFor="let item of messages">
@@ -30,13 +29,6 @@
             </ion-col>
           </ion-row>
         </ion-grid>
-=======
-<ion-content class="dark-theme">
-  <ion-list class="dark-theme">
-    <ion-item-sliding [ngClass]="{'old': toggle, 'new': !toggle}" *ngFor="let item of messages">
-      <ion-item>
-        <ion-label>{{item.body}}</ion-label>
->>>>>>> f48302ace610cf3e9b351a186300f2bc0cd28955
       </ion-item>
       <ion-item-options side="end">
         <ion-item-option (click)="unread(item)">Bevestig</ion-item-option>
