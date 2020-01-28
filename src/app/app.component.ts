@@ -5,11 +5,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Stomp } from "stomp.js";
 import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
-<<<<<<< HEAD
-import { TIMEOUT } from 'dns';
-=======
 import { ThemeService } from './services/theme.service';
->>>>>>> afd362ffe84d3790d474d165f9143afeb726fc50
+import { Message } from './models/message';
 
 @Component({
   selector: 'app-root',
@@ -36,10 +33,10 @@ export class AppComponent implements OnInit {
     
     this.rabbitmqservice.group.subscribe(e=> {
       console.log("Changing queue to:" + e);
-      //if (this.client != null) {
-      //  this.client.disconnect();
-      //}
-
+      if (this.client != null) {
+        console.log("client =" + this.client);
+        this.client.disconnect();
+      }
       this.changeQueue(e);
     
     });
@@ -53,15 +50,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.changeQueue("hello");
   }
 
 
 
   changeQueue(toQueue) {
-    //this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
-    this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
+    this.ws = new WebSocket('ws://192.168.1.2:15674/ws'); // SERVER
+    //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
     this.client = Stomp.over(this.ws);
+
+    this.client.heartbeat.incoming = 0;
+    this.client.heartbeat.outgoing = 0;
 
     var queue = '/queue/' + toQueue
     var bind = this;
@@ -79,12 +78,13 @@ export class AppComponent implements OnInit {
     };
 
     
-    //this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
-    this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+    this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
+    //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
   }
 
   updateMessages(message) {
-    this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, message]);
+    var date = new Date(message.headers.timestamp * 1000);
+    this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, new Message(message, date)]);
     console.log(this.rabbitmqservice.messages.value);
   }
 
