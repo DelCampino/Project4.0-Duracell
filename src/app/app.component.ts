@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Stomp } from "stomp.js";
@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
 import { ThemeService } from './services/theme.service';
 import { Message } from './models/message';
+
 
 @Component({
   selector: 'app-root',
@@ -17,27 +18,36 @@ import { Message } from './models/message';
 export class AppComponent implements OnInit {
   ws = null;
   client = null;
-  connection;
+  connection = false;
 
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private rabbitmqservice: RabbitmqService,
+    private toastController: ToastController,
+  
+    
   ) 
   {
 
     this.initializeApp();
     
     this.rabbitmqservice.group.subscribe(e=> {
-      console.log("Changing queue to:" + e);
-      if (this.client != null) {
-        console.log("client =" + this.client);
-        this.client.disconnect();
-      }
-      this.changeQueue(e);
-    
+
+        console.log("Changing queue to:" + e);
+        if (this.client != null) {
+          console.log("client =" + this.client);
+          this.client.disconnect();
+        }
+        this.changeQueue(e);
+
+        if(e != 'start'){
+          this.showToast(e);
+        }
+        
     });
+    
   }
 
   initializeApp() {
@@ -57,8 +67,10 @@ export class AppComponent implements OnInit {
     //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
     this.client = Stomp.over(this.ws);
 
-    this.client.heartbeat.incoming = 5000;
-    this.client.heartbeat.outgoing = 5000;
+    this.client.heartbeat.incoming = 0;
+    this.client.heartbeat.outgoing = 0;
+
+    localStorage.setItem('afdeling', toQueue)
 
     var queue = '/queue/' + toQueue
     var bind = this;
@@ -84,11 +96,27 @@ export class AppComponent implements OnInit {
     var date = new Date(message.headers.timestamp * 1000);
     this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, new Message(message, date)]);
     console.log(this.rabbitmqservice.messages.value);
+
+  
   }
 
 
-  async presentAlert(){
-    
+
+  async showToast(e){
+    navigator.vibrate(3000)
+    const toast = await this.toastController.create({
+      message: e + ' verbonden',
+      duration: 2000,
+      position: 'top',
+      color: 'primary',
+      buttons: [{
+        icon: "information-circle",
+        side: 'start'
+
+      }]
+    });
+
+    toast.present();
   }
 
 

@@ -3,6 +3,7 @@ import { RabbitmqService } from '../services/rabbitmq.service';
 import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 
+
 @Component({
   selector: 'app-tab3',
   templateUrl: 'tab3.page.html',
@@ -12,7 +13,7 @@ export class Tab3Page {
 groups: String[];
 groepAlertStatus = localStorage.getItem('groepAlertStatus');
   constructor(private rabbitmqservice: RabbitmqService, public toastController: ToastController, public alertController: AlertController) {
-    this.groups = ["Afdeling A ", "Afdeling B", "Afdeling C", "Afdeling D", "Afdeling E"]
+    this.groups = ["Afdeling A", "Afdeling B", "Afdeling C", "Afdeling D", "Afdeling E"]
    
     console.log(this.groepAlertStatus);
     if(this.groepAlertStatus == null){
@@ -20,8 +21,8 @@ groepAlertStatus = localStorage.getItem('groepAlertStatus');
       //console.log("test")
     }
     
-    
   }
+  
 
   async select(item, slidingItem) {
     this.rabbitmqservice.group.next(item);

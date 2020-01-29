@@ -6,8 +6,18 @@ import { Message } from '../models/message';
   providedIn: 'root'
 })
 export class RabbitmqService {
+
+  
   messages: BehaviorSubject<Array<Message>> = new BehaviorSubject([]);
-  group: BehaviorSubject<String> = new BehaviorSubject("start");
+  group: BehaviorSubject<String>;
   constructor() { 
+
+      var afdeling = localStorage.getItem('afdeling');
+
+      if(afdeling != null){
+        this.group = new BehaviorSubject(afdeling);
+      }else{
+        this.group = new BehaviorSubject('start');
+      }
   }
 }
