@@ -1,11 +1,11 @@
 
 <ion-app>
-  <ion-progress-bar *ngIf="connection" type="indeterminate"></ion-progress-bar>
-  <div *ngIf="connection">
+  <ion-progress-bar *ngIf="!connection" type="indeterminate"></ion-progress-bar>
+  <div *ngIf="!connection">
   <ion-router-outlet></ion-router-outlet>
 </div>
 <div class="disconnected" *ngIf="!connection">
-  <ion-icon class="iconDisconnected" name="wifi"></ion-icon>
+  <!-- <ion-icon class="iconDisconnected" name="wifi"></ion-icon> -->
   <h2>Netwerk niet gevonden</h2>
   <p>Er wordt gezocht naar het duracell netwerk..</p>
 </div>

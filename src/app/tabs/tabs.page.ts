@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Output } from '@angular/core';
+import { EventEmitter } from 'protractor';
 
 @Component({
   selector: 'app-tabs',
@@ -8,10 +9,6 @@ import { Component } from '@angular/core';
 export class TabsPage {
 
   constructor() {}
-
-  ToggleLightDark() {
-  
-  }
 
 }
 

@@ -15,6 +15,8 @@
 
 
 <ion-content color="dark">
+  <div *ngIf="messages.length == 0">
+      <div class="no-message">geen meldingen</div>
   <ion-list color="dark">
     <ion-item-sliding color="dark" *ngFor="let item of messages">
       <ion-item color="dark">
@@ -23,7 +25,7 @@
           <ion-row>
             <ion-col class="ion-text-center">
               <div>{{item.timestamp.toLocaleDateString()}}</div>
-              <div>{{item.timestamp.toLocaleTimeString()}}</div>
+               <div>{{item.timestamp.toLocaleTimeString()}}</div>
             </ion-col>
             <ion-col class="ion-text-center">
               <div>{{item.message.body}}</div>
@@ -37,4 +39,11 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+</div>
 </ion-content>
+
+
+<!-- Voor alert te testen -->
+<!-- <ion-button (click)="clearAlert()">
+  alert
+</ion-button> -->
