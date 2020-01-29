@@ -14,6 +14,8 @@
 </ion-header>
 
 <ion-content color="dark">
+  <div *ngIf="messages.length == 0">
+      <div class="no-message">geen meldingen</div>
   <ion-list color="dark">
       <ion-item color="dark" *ngFor="let item of messages">
         <ion-grid>
@@ -34,4 +36,11 @@
         </ion-grid>
       </ion-item>
   </ion-list>
+</div>
 </ion-content>
+
+
+<!-- Voor alert te testen -->
+<!-- <ion-button (click)="clearAlert()">
+  alert
+</ion-button> -->

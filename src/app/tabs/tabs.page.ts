@@ -16,9 +16,5 @@ export class TabsPage {
     });
   }
 
-  ToggleLightDark() {
-  
-  }
-
 }
 
