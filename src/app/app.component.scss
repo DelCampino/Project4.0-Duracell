@@ -1,7 +1,7 @@
 /* Custom fonts */
 @import "../theme/fonts.scss";
 
-ion-app{
+ion-app {
     --ion-font-family: 'Duracellio' !important;
 }
 
@@ -12,7 +12,7 @@ ion-app{
     color: white;
     vertical-align: middle;
     padding: 10px;
-
+    font-family: 'Oswald' !important;
 }
 
 .iconDisconnected {
