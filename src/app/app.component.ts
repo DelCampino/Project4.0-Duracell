@@ -6,7 +6,7 @@ import { Stomp } from "stomp.js";
 import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
 import { ThemeService } from './services/theme.service';
-import { Message } from './models/message';
+import { Message, MessageSmall } from './models/message';
 
 
 @Component({
@@ -84,7 +84,7 @@ export class AppComponent implements OnInit {
     };
     var on_error =  function() {
       bind.connection = false;
-      setTimeout(() => bind.changeQueue(toQueue), 5000)
+      bind.changeQueue(toQueue)
     };
 
     
@@ -94,7 +94,13 @@ export class AppComponent implements OnInit {
 
   updateMessages(message) {
     var date = new Date(message.headers.timestamp * 1000);
-    this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, new Message(message, date)]);
+    if (true) { //<-- ID VAN MESSAGE
+      var otherMessages = new Array<MessageSmall> ();
+      this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, new Message(message, date, otherMessages)]);
+    } else {
+      // ZET IN OTHERMESSAGES VAN BESTAANDE MESSAGE
+    }
+    
     console.log(this.rabbitmqservice.messages.value);
 
   
