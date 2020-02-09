@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { RabbitmqService } from '../services/rabbitmq.service';
 import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
+import { DetailComponent } from '../detail/detail.component';
+
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -9,7 +12,7 @@ import { AlertController } from '@ionic/angular';
 export class Tab1Page {
   messages: any[];
   notificationAlertStatus = localStorage.getItem('notificationAlertStatus');
-  constructor(private rabbitmqservice: RabbitmqService, public alertController: AlertController) {
+  constructor(private rabbitmqservice: RabbitmqService, public alertController: AlertController, public modalController: ModalController) {
     this.rabbitmqservice.messages.subscribe(e=> {
       this.messages = e;
     });
@@ -24,6 +27,16 @@ export class Tab1Page {
     unread(item) {
       this.messages.splice(this.messages.indexOf(item), 1);
       this.rabbitmqservice.messages.next(this.messages);
+    }
+
+    async presentModal(messageData) {
+      const modal = await this.modalController.create({
+        component: DetailComponent,
+        componentProps: {
+          'messages': messageData,
+        }
+      });
+      return await modal.present();
     }
 
     async presentAlert() {

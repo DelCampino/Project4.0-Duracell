@@ -8,7 +8,7 @@ import { Message } from '../models/message';
 export class RabbitmqService {
 
   
-  messages: BehaviorSubject<Array<Message>> = new BehaviorSubject([]);
+  messages: BehaviorSubject<Array<Array<Message>>> = new BehaviorSubject([]);
   group: BehaviorSubject<String>;
   constructor() { 
 

@@ -2,12 +2,12 @@
   <ion-toolbar color="new">
     <ion-title>
       <div *ngIf="messages.length != 0;else noMessages">
-        <img class="icon ion-text-center" src="../../assets/alert.png"/>
+        <img class="icon ion-text-center" src="../../assets/alert.png" />
       </div>
       <ng-template #noMessages>
         <div>
-          <img class="icon ion-text-center" src="../../assets/checkmark.png"/>
-      </div>
+          <img class="icon ion-text-center" src="../../assets/checkmark.png" />
+        </div>
       </ng-template>
     </ion-title>
   </ion-toolbar>
@@ -17,26 +17,26 @@
   <!-- <div *ngIf="messages.length == 0">
       <div class="no-message">geen meldingen</div> -->
   <ion-list color="dark">
-      <ion-item color="dark" *ngFor="let item of messages">
-        <ion-grid>
-          <ion-row>
-            <ion-col class="ion-text-center">
-              <div class="sensorTime">{{item.timestamp.toLocaleDateString()}}</div>
-              <div>{{item.timestamp.toLocaleTimeString()}}</div>
-            </ion-col>
-            <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
-              <div class="sensorName">SENSOR_NAME</div>
-              <div class="sensorValue">{{item.message.body}}</div>
-            </ion-col>
-            <ion-col class="ion-text-center ion-text-uppercase sensorAmount">
-              <span class="sensorAmountValue"></span>
-              <ion-icon class="sensorArrow" name="arrow-dropdown-circle"></ion-icon>
-            </ion-col>
-          </ion-row>
-        </ion-grid>
-      </ion-item>
+    <ion-item color="dark" *ngFor="let item of messages" (click)="presentModal(item)">
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <div class="sensorTime">{{item[item.length-1].timestamp.toLocaleDateString()}}</div>
+            <div>{{item[item.length-1].timestamp.toLocaleTimeString()}}</div>
+          </ion-col>
+          <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
+            <div class="sensorName">SENSOR_NAME</div>
+            <div class="sensorValue">{{item[item.length-1].message.body}}</div>
+          </ion-col>
+          <ion-col *ngIf="item.length > 1" class="ion-text-center ion-text-uppercase sensorAmount">
+            <span class="sensorAmountValue">{{item.length - 1}}</span>
+            <ion-icon class="sensorArrow" name="arrow-dropdown-circle"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
   </ion-list>
-<!-- </div> -->
+  <!-- </div> -->
 </ion-content>
 
 

@@ -6,7 +6,7 @@ import { Stomp } from "stomp.js";
 import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
 import { ThemeService } from './services/theme.service';
-import { Message, MessageSmall } from './models/message';
+import { Message } from './models/message';
 
 
 @Component({
@@ -63,12 +63,12 @@ export class AppComponent implements OnInit {
 
 
   changeQueue(toQueue) {
-    this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
-    //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
+    //this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
+    this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
     this.client = Stomp.over(this.ws);
 
     this.client.heartbeat.incoming = 0;
-    this.client.heartbeat.outgoing = 0;
+    this.client.heartbeat.outgoing = 5000;
 
     localStorage.setItem('afdeling', toQueue)
 
@@ -88,22 +88,24 @@ export class AppComponent implements OnInit {
     };
 
     
-    this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
-    //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+    //this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
+    this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
   }
 
   updateMessages(message) {
     var date = new Date(message.headers.timestamp * 1000);
-    if (true) { //<-- ID VAN MESSAGE
-      var otherMessages = new Array<MessageSmall> ();
-      this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, new Message(message, date, otherMessages)]);
-    } else {
-      // ZET IN OTHERMESSAGES VAN BESTAANDE MESSAGE
-    }
-    
-    console.log(this.rabbitmqservice.messages.value);
+    let exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].message['body'] === message.body);
 
-  
+    if (exists == -1) { //<-- ID VAN MESSAGE
+      var add = [new Message(message, date)];
+      this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, add]);
+    } else {
+      var addExisting = new Message(message, date);
+      var messagesNew = this.rabbitmqservice.messages.value;
+      messagesNew[exists].push(addExisting);
+      this.rabbitmqservice.messages.next(messagesNew);
+    }
+    console.log(this.rabbitmqservice.messages.value)
   }
 
 

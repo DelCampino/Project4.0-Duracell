@@ -1,0 +1,52 @@
+<ion-header>
+  <ion-toolbar color="new">
+    <ion-title color="light" class="ion-text-uppercase">
+      Informatie
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()">
+        <ion-icon size="large" name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color="dark">
+  <div class="info">
+    <p class="info">Naam: SENSOR_NAME</p>
+    <p class="info">Laatst bekende waarde: {{messages[messages.length-1].message.body}}</p>
+  </div>
+
+  <ion-toolbar color="new">
+    <ion-title color="light" class="ion-text-uppercase">
+      Laatste meldingen:
+    </ion-title>
+  </ion-toolbar>
+  <ion-list color="dark">
+    <ion-item color="dark" class="headers">
+    <ion-grid>
+      <ion-row>
+        <ion-col class="ion-text-center">
+          <ion-icon size="large" name="time"></ion-icon>
+        </ion-col>
+        <ion-col class="ion-text-center">
+          <ion-icon size="large" name="information-circle-outline"></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-item>
+    <ion-item color="dark" *ngFor="let item of messages">
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <div class="sensorTime">{{item.timestamp.toLocaleDateString()}}</div>
+            <div>{{item.timestamp.toLocaleTimeString()}}</div>
+          </ion-col>
+          <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
+            <div class="sensorValue">{{item.message.body}}</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
+  </ion-list>
+</ion-content>
