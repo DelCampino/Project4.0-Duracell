@@ -28,8 +28,8 @@
             <div class="sensorName">SENSOR_NAME</div>
             <div class="sensorValue">{{item[item.length-1].message.body}}</div>
           </ion-col>
-          <ion-col *ngIf="item.length > 1" class="ion-text-center ion-text-uppercase sensorAmount">
-            <span class="sensorAmountValue">{{item.length - 1}}</span>
+          <ion-col class="ion-text-center ion-text-uppercase sensorAmount">
+            <span class="sensorAmountValue">{{item.length}}</span>
             <ion-icon class="sensorArrow" name="arrow-dropdown-circle"></ion-icon>
           </ion-col>
         </ion-row>

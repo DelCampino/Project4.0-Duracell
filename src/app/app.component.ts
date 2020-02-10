@@ -73,7 +73,7 @@ export class AppComponent implements OnInit {
 
     localStorage.setItem('afdeling', toQueue)
 
-    var queue = '/queue/' + toQueue
+    var queue = '/exchange/' + toQueue + '/';
     var bind = this;
     var on_connect = function() {
       bind.connection = true;
@@ -86,7 +86,8 @@ export class AppComponent implements OnInit {
     };
     var on_error =  function() {
       bind.connection = false;
-      bind.changeQueue(toQueue)
+      bind.changeQueue(toQueue);
+      bind.sendNotif("Geen internet verbinding!");
     };
 
     
@@ -97,7 +98,7 @@ export class AppComponent implements OnInit {
   sendNotif(sensorData) {
     this.localNotifications.schedule({
       id: 1,
-      text: 'Sensor warning:' + sensorData,
+      text: 'Sensor warning: ' + sensorData,
     });
   }
 
@@ -106,13 +107,20 @@ export class AppComponent implements OnInit {
     let exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].message['body'] === message.body);
 
     if (exists == -1) { //<-- ID VAN MESSAGE
-      var add = [new Message(message, date)];
-      this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, add]);
+      if ('ack-' == message.body.substring(0,4)) {
+        var messagesNew = this.rabbitmqservice.messages.value;
+        let exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].message['body'] === 'ack-' + message.body);
+        messagesNew.splice(exists, 1);
+        this.rabbitmqservice.messages.next(messagesNew);
+      } else {
+        var add = [new Message(message, date)];
+        this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, add]);
+      }
     } else {
-      var addExisting = new Message(message, date);
-      var messagesNew = this.rabbitmqservice.messages.value;
-      messagesNew[exists].push(addExisting);
-      this.rabbitmqservice.messages.next(messagesNew);
+        var addExisting = new Message(message, date);
+        var messagesNew = this.rabbitmqservice.messages.value;
+        messagesNew[exists].push(addExisting);
+        this.rabbitmqservice.messages.next(messagesNew);
     }
     console.log(this.rabbitmqservice.messages.value)
   }
