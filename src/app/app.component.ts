@@ -7,7 +7,8 @@ import { BehaviorSubject } from 'rxjs';
 import { RabbitmqService } from './services/rabbitmq.service';
 import { ThemeService } from './services/theme.service';
 import { Message } from './models/message';
-
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 
 @Component({
   selector: 'app-root',
@@ -26,13 +27,13 @@ export class AppComponent implements OnInit {
     private statusBar: StatusBar,
     private rabbitmqservice: RabbitmqService,
     private toastController: ToastController,
-  
-    
+    private localNotifications: LocalNotifications,
+    private backgroundMode: BackgroundMode
   ) 
   {
 
     this.initializeApp();
-    
+    this.backgroundMode.enable();
     this.rabbitmqservice.group.subscribe(e=> {
 
         console.log("Changing queue to:" + e);
@@ -79,6 +80,7 @@ export class AppComponent implements OnInit {
       //alert("connected to new queue: " + toQueue)
       bind.client.subscribe(queue, function(message) {
         console.log("Message received: " + message);
+        bind.sendNotif(message.body);
         bind.updateMessages(message);
       });
     };
@@ -90,6 +92,13 @@ export class AppComponent implements OnInit {
     
     this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
     //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+  }
+
+  sendNotif(sensorData) {
+    this.localNotifications.schedule({
+      id: 1,
+      text: 'Sensor warning:' + sensorData,
+    });
   }
 
   updateMessages(message) {
