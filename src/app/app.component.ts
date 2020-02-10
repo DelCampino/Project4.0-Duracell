@@ -86,7 +86,7 @@ export class AppComponent implements OnInit {
     };
     var on_error =  function() {
       bind.connection = false;
-      bind.changeQueue(toQueue)
+      bind.changeQueue(toQueue);
     };
 
     
