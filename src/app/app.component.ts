@@ -120,7 +120,6 @@ export class AppComponent implements OnInit {
 
 
   async showToast(e){
-    navigator.vibrate(3000)
     const toast = await this.toastController.create({
       message: e + ' verbonden',
       duration: 2000,
