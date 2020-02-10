@@ -44,7 +44,6 @@ export class DetailComponent implements OnInit {
     };
 
     this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
-    //this.messages.splice(this.messages.indexOf(item), 1);
-    //this.rabbitmqservice.messages.next(this.messages);
+    this.modalController.dismiss();
   }
 }

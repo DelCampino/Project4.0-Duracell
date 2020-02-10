@@ -80,7 +80,6 @@ export class AppComponent implements OnInit {
       //alert("connected to new queue: " + toQueue)
       bind.client.subscribe(queue, function(message) {
         console.log("Message received: " + message);
-        bind.sendNotif(message.body);
         bind.updateMessages(message);
       });
     };
@@ -114,12 +113,14 @@ export class AppComponent implements OnInit {
       } else {
         var add = [new Message(message, date)];
         this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, add]);
+        this.sendNotif(message.body);
       }
     } else {
         var addExisting = new Message(message, date);
         var messagesNew = this.rabbitmqservice.messages.value;
         messagesNew[exists].push(addExisting);
         this.rabbitmqservice.messages.next(messagesNew);
+        this.sendNotif(message.body);
     }
     console.log(this.rabbitmqservice.messages.value)
   }
