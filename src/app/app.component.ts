@@ -87,7 +87,10 @@ export class AppComponent implements OnInit {
     var on_error =  function() {
       bind.connection = false;
       bind.changeQueue(toQueue);
+<<<<<<< HEAD
       bind.sendNotif("Geen internet verbinding!");
+=======
+>>>>>>> 93cd7f457e0fca5b7c828f9e9489842ec6c2dd47
     };
 
     
