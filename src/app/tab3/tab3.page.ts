@@ -16,16 +16,17 @@ groepAlertStatus = localStorage.getItem('groepAlertStatus');
   constructor(private rabbitmqservice: RabbitmqService, public toastController: ToastController, public alertController: AlertController) {
     this.groups = ["Afdeling A", "Afdeling B", "Afdeling C", "Afdeling D", "Afdeling E"]
    
-    console.log(this.groepAlertStatus);
     if(this.groepAlertStatus == null){
       this.presentAlert();
-      //console.log("test")
     }
 
     this.rabbitmqservice.group.subscribe(e => {this.currentGroup = e})
     
   }
-  
+
+  openItem(slidingItem){
+    slidingItem.open();
+  }
 
   async select(item, slidingItem) {
     if(item != localStorage.getItem('afdeling'))

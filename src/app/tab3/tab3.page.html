@@ -9,7 +9,7 @@
 <ion-content color="dark">
   <ion-list color="dark"> 
     <ion-item-sliding #slidingItem *ngFor="let item of groups">
-      <ion-item color="dark">
+      <ion-item color="dark" (click)="openItem(slidingItem)">
         <ion-label class="ion-text-uppercase"><ion-icon name="contact"></ion-icon><span class="afdeling-naam">{{item}}</span></ion-label>
         <ion-icon *ngIf="currentGroup == item" name="checkmark"></ion-icon>
       </ion-item>
