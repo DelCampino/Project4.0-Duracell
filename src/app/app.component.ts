@@ -9,6 +9,7 @@ import { ThemeService } from './services/theme.service';
 import { Message } from './models/message';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { Guid } from "guid-typescript";
 
 @Component({
   selector: 'app-root',
@@ -73,6 +74,13 @@ export class AppComponent implements OnInit {
       this.client.heartbeat.outgoing = 1000;
   
       localStorage.setItem('afdeling', toQueue);
+
+      if (localStorage.getItem('guid') == null) {
+        var guid = Guid.create().toString();
+        localStorage.setItem('guid', guid);
+      } else {
+        var guid = localStorage.getItem('guid');
+      }
   
       var queue = '/exchange/' + toQueue + '/';
       var bind = this;
@@ -82,7 +90,7 @@ export class AppComponent implements OnInit {
         bind.client.subscribe(queue, function(message) {
           console.log("Message received: " + message);
           bind.updateMessages(message);
-        });
+        }, {'x-queue-name': guid + ' - ' +  toQueue, durable: true, 'auto-delete': false});
       };
       var on_error =  function() {
         bind.connection = false;
