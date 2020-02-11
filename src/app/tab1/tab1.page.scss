@@ -42,11 +42,12 @@ ion-item {
 
 .sensorTime {
   margin-top: 5px;
+  font-size: 18px !important;
 }
 
 .sensorAmountValue {
   font-size: 26px;
-  margin-top: 15px;
+  margin-top: 20px;
   margin-right: 5px;
 }
 
@@ -54,6 +55,10 @@ ion-item {
     border-left: solid;
     border-right: solid;
     padding: 10px;
+}
+
+.sensorAmountCol {
+  padding-top: 12px;
 }
 
 .sensorArrow {

@@ -22,15 +22,15 @@
     <ion-item color="dark" *ngFor="let item of messages" (click)="presentModal(item)">
       <ion-grid>
         <ion-row>
-          <ion-col class="ion-text-center">
-            <div class="sensorTime">{{item[item.length-1].timestamp.toLocaleDateString()}}</div>
-            <div>{{item[item.length-1].timestamp.toLocaleTimeString()}}</div>
+          <ion-col class="sensorTime ion-text-center">
+            <ion-icon *ngIf="timeSince(item[item.length-1].timestamp) != false" size="large" name="time"></ion-icon>
+            <div>{{timeSince(item[item.length-1].timestamp)}}</div>
           </ion-col>
           <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
             <div class="sensorName">SENSOR_NAME</div>
             <div class="sensorValue">{{item[item.length-1].message.body}}</div>
           </ion-col>
-          <ion-col class="ion-text-center ion-text-uppercase sensorAmount">
+          <ion-col class="ion-text-center ion-text-uppercase sensorAmountCol">
             <span class="sensorAmountValue">{{item.length}}</span>
             <ion-icon class="sensorArrow" name="arrow-dropdown-circle"></ion-icon>
           </ion-col>
@@ -38,11 +38,4 @@
       </ion-grid>
     </ion-item>
   </ion-list>
-  <!-- </div> -->
 </ion-content>
-
-
-<!-- Voor alert te testen -->
-<!-- <ion-button (click)="clearAlert()">
-  alert
-</ion-button> -->

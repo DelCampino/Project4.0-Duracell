@@ -56,5 +56,30 @@ export class Tab1Page {
     clearAlert(){
       localStorage.removeItem('notificationAlertStatus')
     }
+
+    timeSince(date) {
+      date = new Date(date);
+      var startDate = +new Date();
+      var seconds = Math.floor((startDate - date) / 1000);
+    
+      var interval = Math.floor(seconds / 31536000);
+      interval = Math.floor(seconds / 86400);
+        if (interval >= 1) {
+          return date.toLocaleDateString();
+        }
+
+      interval = Math.floor(seconds / 3600);
+      if (interval >= 1) {
+        return interval + " U";
+      }      
+
+      interval = Math.floor(seconds / 60);
+
+      if (interval >= 1) {
+        return interval + " MIN";
+      }
+
+      return Math.floor(seconds) + " SEC";
+    }
   }
   

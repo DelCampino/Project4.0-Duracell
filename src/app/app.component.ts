@@ -70,7 +70,7 @@ export class AppComponent implements OnInit {
       this.client = Stomp.over(this.ws);
   
       this.client.heartbeat.incoming = 0;
-      this.client.heartbeat.outgoing = 5000;
+      this.client.heartbeat.outgoing = 1000;
   
       localStorage.setItem('afdeling', toQueue);
   
