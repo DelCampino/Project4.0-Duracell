@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
           this.client.disconnect();
         }
         this.changeQueue(e);
+        
 
         if(e != 'start'){
           this.showToast(e);
@@ -64,8 +65,6 @@ export class AppComponent implements OnInit {
 
 
   changeQueue(toQueue) {
-    if(toQueue != localStorage.getItem('afdeling'))
-    {
       this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
       //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
       this.client = Stomp.over(this.ws);
@@ -93,10 +92,7 @@ export class AppComponent implements OnInit {
       
       this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
       //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
-    }
-    else{
-      this.showToast("U bent al met " + toQueue);
-    }
+    
   }
 
   sendNotif(sensorData) {

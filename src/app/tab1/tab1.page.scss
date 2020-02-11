@@ -19,12 +19,17 @@ ion-toolbar {
   margin-right: auto;
 }
 
+.noMessageLogo {
+  font-size: 50px;
+  margin-bottom: 5px;
+}
+
 .no-message{
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(119, 119, 119, 0.2);
   font-size: 15px;
   height: 100%;
   text-align: center;
-  margin-top: 50%;
+  margin-top: 60%;
   vertical-align: middle;
 }
 ion-list {

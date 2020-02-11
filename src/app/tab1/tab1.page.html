@@ -14,8 +14,10 @@
 </ion-header>
 
 <ion-content color="dark">
-  <!-- <div *ngIf="messages.length == 0">
-      <div class="no-message">geen meldingen</div> -->
+  <div *ngIf="messages.length == 0" class="no-message">
+    <ion-icon class="noMessageLogo" ios="logo-buffer" md="logo-buffer"></ion-icon>
+      <div>geen meldingen</div>
+      </div>
   <ion-list color="dark">
     <ion-item color="dark" *ngFor="let item of messages" (click)="presentModal(item)">
       <ion-grid>

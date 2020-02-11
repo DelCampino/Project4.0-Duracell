@@ -2,6 +2,13 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TabsPage } from './tabs.page';
 
+
+if (localStorage.getItem('afdeling') != "start") {
+  var tab = '/tabs/tab1';
+} else {
+  var tab = '/tabs/tab3';
+}
+
 const routes: Routes = [
   {
     path: 'tabs',
@@ -36,7 +43,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: '/tabs/tab3',
+    redirectTo: tab,
     pathMatch: 'full'
   }
 ];

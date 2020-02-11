@@ -11,6 +11,7 @@ import { AlertController } from '@ionic/angular';
 })
 export class Tab3Page {
 groups: String[];
+currentGroup : String;
 groepAlertStatus = localStorage.getItem('groepAlertStatus');
   constructor(private rabbitmqservice: RabbitmqService, public toastController: ToastController, public alertController: AlertController) {
     this.groups = ["Afdeling A", "Afdeling B", "Afdeling C", "Afdeling D", "Afdeling E"]
@@ -20,11 +21,15 @@ groepAlertStatus = localStorage.getItem('groepAlertStatus');
       this.presentAlert();
       //console.log("test")
     }
+
+    this.rabbitmqservice.group.subscribe(e => {this.currentGroup = e})
     
   }
   
 
   async select(item, slidingItem) {
+    if(item != localStorage.getItem('afdeling'))
+    {
     this.rabbitmqservice.group.next(item);
     slidingItem.close();
     const toast = await this.toastController.create({
@@ -41,6 +46,12 @@ groepAlertStatus = localStorage.getItem('groepAlertStatus');
     
 
     toast.present();
+  }
+    else
+    {
+      slidingItem.close();
+      this.showToast("U bent al met " + item);
+    }
   }
 
 
@@ -65,6 +76,22 @@ groepAlertStatus = localStorage.getItem('groepAlertStatus');
 
   clearAlert(){
     localStorage.removeItem('groepAlertStatus')
+  }
+
+  async showToast(e){
+    const toast = await this.toastController.create({
+      message: e + ' verbonden',
+      duration: 2000,
+      position: 'top',
+      color: 'primary',
+      buttons: [{
+        icon: "information-circle",
+        side: 'start'
+
+      }]
+    });
+
+    toast.present();
   }
 
 }
