@@ -36,9 +36,9 @@ export class AppComponent implements OnInit {
     this.backgroundMode.enable();
     this.rabbitmqservice.group.subscribe(e=> {
 
-        console.log("Changing queue to:" + e);
+        //console.log("Changing queue to:" + e);
         if (this.client != null) {
-          console.log("client =" + this.client);
+          //console.log("client =" + this.client);
           this.client.disconnect();
         }
         this.changeQueue(e);
@@ -64,33 +64,39 @@ export class AppComponent implements OnInit {
 
 
   changeQueue(toQueue) {
-    this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
-    //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
-    this.client = Stomp.over(this.ws);
+    if(toQueue != localStorage.getItem('afdeling'))
+    {
+      this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
+      //this.ws = new WebSocket('ws://localhost:15674/ws'); // LOCAL
+      this.client = Stomp.over(this.ws);
+  
+      this.client.heartbeat.incoming = 0;
+      this.client.heartbeat.outgoing = 5000;
+  
+      localStorage.setItem('afdeling', toQueue);
+  
+      var queue = '/exchange/' + toQueue + '/';
+      var bind = this;
+      var on_connect = function() {
+        bind.connection = true;
 
-    this.client.heartbeat.incoming = 0;
-    this.client.heartbeat.outgoing = 5000;
-
-    localStorage.setItem('afdeling', toQueue)
-
-    var queue = '/exchange/' + toQueue + '/';
-    var bind = this;
-    var on_connect = function() {
-      bind.connection = true;
-      //alert("connected to new queue: " + toQueue)
-      bind.client.subscribe(queue, function(message) {
-        console.log("Message received: " + message);
-        bind.updateMessages(message);
-      });
-    };
-    var on_error =  function() {
-      bind.connection = false;
-      bind.changeQueue(toQueue);
-    };
-
-    
-    this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
-    //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+        bind.client.subscribe(queue, function(message) {
+          console.log("Message received: " + message);
+          bind.updateMessages(message);
+        });
+      };
+      var on_error =  function() {
+        bind.connection = false;
+        bind.changeQueue(toQueue);
+      };
+  
+      
+      this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
+      //this.client.connect('guest', 'guest', on_connect, on_error, '/'); // LOCAL
+    }
+    else{
+      this.showToast("U bent al met " + toQueue);
+    }
   }
 
   sendNotif(sensorData) {
