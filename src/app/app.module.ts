@@ -11,13 +11,14 @@ import { AppComponent } from './app.component';
 import { DetailComponent } from './detail/detail.component';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { ChartsModule } from 'ng2-charts'
 
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, DetailComponent],
   entryComponents: [DetailComponent],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, ChartsModule, HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,

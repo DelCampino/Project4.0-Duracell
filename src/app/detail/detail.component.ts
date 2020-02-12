@@ -1,24 +1,72 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Stomp } from "stomp.js";
 import { RabbitmqService } from '../services/rabbitmq.service';
+
+import { ChartDataSets, ChartOptions } from 'chart.js';
+import { Color, Label } from 'ng2-charts';
 
 @Component({
   selector: 'app-detail',
   templateUrl: './detail.component.html',
   styleUrls: ['./detail.component.scss'],
 })
-export class DetailComponent implements OnInit {
+export class DetailComponent implements OnInit, OnChanges {
   @Input() messages: Array<Message>;
   ws = null;
   client = null;
+  currentMessages: Array<Message> = [];
 
-  constructor(public modalController: ModalController, public rabbitmqservice: RabbitmqService) { }
+  public lineChartLabels: Label[] = [];
+
+  public lineChartOptions = {
+    responsive: true,
+    scales: {
+      xAxes: [{
+        type: 'time',
+      }]
+    },
+    fontFamily: 'Oswald'
+  };
+
+  public lineChartColors: Color[] = [
+    {
+      borderColor: 'black',
+      backgroundColor: 'rgba(201, 137, 89,0.8)',
+    },
+  ];
+
+  public lineChartData: ChartDataSets[] = [];
+  public lineChartLegend = true;
+  public lineChartType = 'line';
+  public lineChartPlugins = [];
+
+  constructor(public modalController: ModalController, public rabbitmqservice: RabbitmqService) {
+  }
+
+  ngOnChanges() {
+  }
 
   ngOnInit() {
-    console.log(this.messages);
+    this.rabbitmqservice.messages.subscribe((e) => {
+      var data = [];
+      this.messages.forEach(function (message) {
+        data = [...data, {
+          x: new Date(message['timestamp']),
+          y: parseInt(message['message'].body)
+        }]
+        console.log(parseInt(message['message'].body));
+      });
+  
+  
+  
+      this.lineChartData = [{
+        data: data, label: 'Sensor'
+      }];
+    })
   }
+  
 
   dismiss() {
     // using the injected ModalController this page
@@ -35,12 +83,12 @@ export class DetailComponent implements OnInit {
     this.client.heartbeat.outgoing = 5000;
 
     var bind = this;
-    var on_connect = function() {
+    var on_connect = function () {
       //alert("connected to new queue: " + toQueue)
       bind.client.send('/exchange/' + localStorage.getItem('afdeling') + '/', {}, "ack-" + messages[0].message.body);
       bind.client.disconnect();
     };
-    var on_error =  function() {
+    var on_error = function () {
     };
 
     this.client.connect('team4', 'team4', on_connect, on_error, 'team4vhost'); // SERVER
