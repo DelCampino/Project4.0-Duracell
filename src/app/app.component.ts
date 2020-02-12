@@ -51,6 +51,14 @@ export class AppComponent implements OnInit {
         
     });
     
+
+    if(localStorage.getItem("messages") != null){
+      var local = JSON.parse(localStorage.getItem("messages"));
+      local.map(x => x.map(y => y['timestamp'] = new Date(y['timestamp'])));
+      //console.log(local);
+      this.rabbitmqservice.messages.next(local);
+    }
+
   }
 
   initializeApp() {
@@ -117,7 +125,7 @@ export class AppComponent implements OnInit {
     if (exists == -1) { //<-- ID VAN MESSAGE
       if ('ack-' == message.body.substring(0,4)) {
         var messagesNew = this.rabbitmqservice.messages.value;
-        let exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].message['body'] === 'ack-' + message.body);
+        let exists = this.rabbitmqservice.messages.value.findIndex(array => "ack-" + array[0].message['body'] === message.body);
         messagesNew.splice(exists, 1);
         this.rabbitmqservice.messages.next(messagesNew);
       } else {
@@ -125,7 +133,8 @@ export class AppComponent implements OnInit {
         this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, add]);
         this.sendNotif(message.body);
       }
-    } else {
+    } 
+    else {
         var addExisting = new Message(message, date);
         var messagesNew = this.rabbitmqservice.messages.value;
         messagesNew[exists].push(addExisting);

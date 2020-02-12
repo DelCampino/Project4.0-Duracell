@@ -59,7 +59,7 @@ groepAlertStatus = localStorage.getItem('groepAlertStatus');
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Afdeling scherm',
-      message: 'Hier kunt u een afdeling selecteren. U zult meldingen ontvangen gebaseerd op uw keuze. Veeg naar links op een afdeling om te selecteren.',
+      message: 'Hier kunt u een afdeling selecteren. U zult meldingen ontvangen gebaseerd op uw keuze. Veeg naar links op een afdeling of klik erop om te selecteren.',
       buttons: [
         {
           text: 'Begrepen!',

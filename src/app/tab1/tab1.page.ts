@@ -15,6 +15,7 @@ export class Tab1Page {
   constructor(private rabbitmqservice: RabbitmqService, public alertController: AlertController, public modalController: ModalController) {
     this.rabbitmqservice.messages.subscribe(e=> {
       this.messages = e;
+      localStorage.setItem("messages", JSON.stringify(e));
     });
 
 
