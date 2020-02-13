@@ -13,17 +13,12 @@
 
 <ion-content color="dark">
   <div class="info">
-    <p class="info">Naam: SENSOR_NAME</p>
-    <p class="info">Laatst bekende waarde: {{messages[messages.length-1].message.body}}</p>
+    <p class="info">Naam: SENSOR {{messages[messages.length-1].id}}</p>
+    <p class="info">Laatst bekende waarde: {{messages[messages.length-1].value}}</p>
   </div>
 
-  <canvas baseChart height="300" class="canvas"
-    [datasets]="lineChartData"
-    [options]="lineChartOptions"
-    [colors]="lineChartColors"
-    [legend]="lineChartLegend"
-    [chartType]="lineChartType"
-    [plugins]="lineChartPlugins">
+  <canvas baseChart height="300" class="canvas" [datasets]="lineChartData" [options]="lineChartOptions"
+    [colors]="lineChartColors" [legend]="lineChartLegend" [chartType]="lineChartType" [plugins]="lineChartPlugins">
   </canvas>
 
   <ion-toolbar color="new">
@@ -33,17 +28,17 @@
   </ion-toolbar>
   <ion-list color="dark">
     <ion-item color="dark" class="headers">
-    <ion-grid>
-      <ion-row>
-        <ion-col class="ion-text-center">
-          <ion-icon size="large" name="time"></ion-icon>
-        </ion-col>
-        <ion-col class="ion-text-center">
-          <ion-icon size="large" name="information-circle-outline"></ion-icon>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-item>
+      <ion-grid>
+        <ion-row>
+          <ion-col class="ion-text-center">
+            <ion-icon size="large" name="time"></ion-icon>
+          </ion-col>
+          <ion-col class="ion-text-center">
+            <ion-icon size="large" name="information-circle-outline"></ion-icon>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-item>
     <ion-item color="dark" *ngFor="let item of messages">
       <ion-grid>
         <ion-row>
@@ -52,7 +47,7 @@
             <div>{{item.timestamp.toLocaleTimeString()}}</div>
           </ion-col>
           <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
-            <div class="sensorValue">{{item.message.body}}</div>
+            <div class="sensorValue">{{item.value}}</div>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -63,43 +58,3 @@
 <ion-footer>
   <ion-button class="confirm" expand="full" (click)="confirm(messages)">Bevestig</ion-button>
 </ion-footer>
-
-<script>
-  var ctx = document.getElementById('myChart').getContext('2d');
-  var myChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-          datasets: [{
-              label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)'
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)'
-              ],
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
-      }
-  });
-  </script>

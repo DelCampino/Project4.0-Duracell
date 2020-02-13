@@ -54,9 +54,8 @@ export class DetailComponent implements OnInit, OnChanges {
       this.messages.forEach(function (message) {
         data = [...data, {
           x: new Date(message['timestamp']),
-          y: parseInt(message['message'].body)
+          y: parseInt(message['value'])
         }]
-        console.log(parseInt(message['message'].body));
       });
   
   
@@ -85,7 +84,7 @@ export class DetailComponent implements OnInit, OnChanges {
     var bind = this;
     var on_connect = function () {
       //alert("connected to new queue: " + toQueue)
-      bind.client.send('/exchange/' + localStorage.getItem('afdeling') + '/', {}, "ack-" + messages[0].message.body);
+      bind.client.send('/exchange/' + localStorage.getItem('afdeling') + '/', {}, "ack-" + messages[0].value + '/' + messages[0].id);
       bind.client.disconnect();
     };
     var on_error = function () {

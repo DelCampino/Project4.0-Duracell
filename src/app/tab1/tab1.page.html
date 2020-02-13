@@ -27,8 +27,8 @@
             <div>{{timeSince(item[item.length-1].timestamp)}}</div>
           </ion-col>
           <ion-col class="ion-text-center ion-text-uppercase sensorInfo">
-            <div class="sensorName">SENSOR_NAME</div>
-            <div class="sensorValue">{{item[item.length-1].message.body}}</div>
+            <div class="sensorName">SENSOR {{item[item.length-1].id}}</div>
+            <div class="sensorValue">{{item[item.length-1].value}}</div>
           </ion-col>
           <ion-col class="ion-text-center ion-text-uppercase sensorAmountCol">
             <span class="sensorAmountValue">{{item.length}}</span>
