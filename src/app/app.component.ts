@@ -69,9 +69,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
-
-
 
   changeQueue(toQueue) {
       this.ws = new WebSocket('ws://81.82.52.102:15674/ws'); // SERVER
