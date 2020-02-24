@@ -110,10 +110,19 @@ export class AppComponent implements OnInit {
   }
 
   sendNotif(sensorId, sensorValue) {
-    this.localNotifications.schedule({
-      id: 1,
-      text: 'Waarschuwing - ' + 'Sensor ' + sensorId + '\n' + 'Waarde: ' + sensorValue,
-    });
+    if(!Number.isNaN(Number(sensorId))){
+      this.localNotifications.schedule({
+        id: 1,
+        text: 'Waarschuwing - ' + 'Sensor ' + sensorId + '\n' + 'Waarde: ' + sensorValue,
+      });
+    }
+    else{
+      this.localNotifications.schedule({
+        id: 1,
+        text: 'Waarschuwing - ' + sensorId + '\n' + 'Waarde: ' + sensorValue,
+      });
+    }
+    
   }
 
   updateMessages(message) {
