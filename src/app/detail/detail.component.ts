@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { Message } from '@angular/compiler/src/i18n/i18n_ast';
+//import { Message } from '@angular/compiler/src/i18n/i18n_ast';
 import { Stomp } from "stomp.js";
 import { RabbitmqService } from '../services/rabbitmq.service';
 
 import { ChartDataSets, ChartOptions } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
+import { Message } from '../models/message';
 
 @Component({
   selector: 'app-detail',
@@ -54,7 +55,7 @@ export class DetailComponent implements OnInit, OnChanges {
       this.messages.forEach(function (message) {
         data = [...data, {
           x: new Date(message['timestamp']),
-          y: parseInt(message['value'])
+          y: message['value']
         }]
       });
   

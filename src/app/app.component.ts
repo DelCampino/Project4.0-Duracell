@@ -118,36 +118,46 @@ export class AppComponent implements OnInit {
 
   updateMessages(message) {
     var date = new Date(message.headers.timestamp * 1000);
-    console.log(message.body);
+    //console.log(message.body);
     var values = message.body.split('/');
-    console.log(values);
+    //console.log(values);
     var value = values[0];
+
     var id = values[1];
 
-    let exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].id === id);
+    if(!Number.isNaN(Number(id))){
+      var exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].id == "Sensor " + id);
+    }else{
+      exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].id === id);
+    }
 
     if ('ack-' == value.substring(0, 4)) {
-      console.log("ACKNOWLEDGE");
+      //console.log("ACKNOWLEDGE");
       var messagesNew = this.rabbitmqservice.messages.value;
       let exists = this.rabbitmqservice.messages.value.findIndex(array => array[0].id === id);
       messagesNew.splice(exists, 1);
       this.rabbitmqservice.messages.next(messagesNew);
     } else {
+
+      if(!Number.isNaN(Number(id))){
+        id = "Sensor " + id;
+      }
+
       if (exists != -1) {
-        console.log("ADD TO EXISTING");
+        //console.log("ADD TO EXISTING");
         var addExisting = new Message(message, date, id, value);
         var messagesNew = this.rabbitmqservice.messages.value;
-        console.log(addExisting);
+        //console.log(addExisting);
         messagesNew[exists].push(addExisting);
         this.rabbitmqservice.messages.next(messagesNew);
         this.sendNotif(id, value);
       } else {
-        console.log("ADD TO NEW");
+        //console.log("ADD TO NEW");
         var add = [new Message(message, date, id, value)];
         this.rabbitmqservice.messages.next([...this.rabbitmqservice.messages.value, add]);
         this.sendNotif(id, value);
       }
-      console.log(this.rabbitmqservice.messages.value)
+      //console.log(this.rabbitmqservice.messages.value)
     }
   }
 
